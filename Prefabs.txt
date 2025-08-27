@@ -1,0 +1,62 @@
+Prefabs
+
+- stands for prefabricated object (or premade object)
+
+    > if you plan on reusing an object multiple times, then you should make it into a prefab
+    
+    > examples of good uses of prefabs [*taken from unity's documentation]
+
+        >> environmental assets (like trees, bushes, light poles, benches)
+        >> NPCs (think of zombie hoards; would you want to recreate a new zombie each time?)
+        >> projectiles (a pirate ship's cannon creates an instance of a cannonball each time it shoots)
+        >> main playable character (the mpc can be placed at the start of each scene in your game)
+        >> particle effects and trails
+        >> coins in mario
+            
+            >>> you decided for some reason to place 5000 coins around your mario-esque game level
+            >>> oh no! you realized after your 5000th coin that they are all green, but you wanted them to be gold!
+            >>> it would be really, REALLY FUCKING annoying to apply a gold-colored material to each 5000 coin manually
+            >>> but if you'd placed 5000 coin prefabs instances, you could've just modified the original prefab and boom.
+            >>> please use prefabs.
+
+    > prefabs come in use when you also want to spawn (instantiate) GameObject items if they don't exist in the start
+
+    > prefabs can go inside other prefabs [ NESTED PREFABS!! ]
+
+        ex) an enemy NPC (prefab) that has armour (prefab) and a weapon (prefab)
+
+            enemyNPC
+                |- armour
+                |- weapon
+
+    > you can also reuse a prefab with different settings and cofigs (configurations) [ PREFAB VARIANTS!! ]
+
+        ex) you have an enemy NPC prefab (OGBob) with gold armour and an axe
+
+            >> what if you want to create another Bob (IronBob) but with iron armour instead?
+            >> create a prefab variant of OGBob, change his armour to iron, then override the new change
+            >> congratulations, you now have overriden changes made to IronBob
+
+            >> having OGBob and IronBob in your scene,
+            >> now you can modify OGBob prefab
+            >> for example, change OGBob's skin color to green (assuming that he was  h u m a n  c o l o r e d )
+            >> OGBob and IronBob will now have green skin, but bc you overriden changes to IronBob, his armour will still stay iron
+
+    > if you made a GameObject into a prefab and you regret it, you can dettach it
+
+        >> right click on your prefab and unpack
+        >> boom, the prefab has turned back into GameObject **magic**
+
+    
+- example of using in a C# script (i.e. prefab templates)
+
+    public class SpawnHotDog {
+        
+        public GameObject myHotDog;
+
+        // Start is called before the first frame update
+        void Start() {
+            Instantiate(myHotDog); // Instantiate is what spawns the GameObject
+        }
+    }
+
