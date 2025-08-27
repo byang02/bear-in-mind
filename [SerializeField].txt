@@ -1,0 +1,53 @@
+WTF IS A [SerializeField]???
+
+- to begin, we must learn the difference between public and private
+
+    > imagine you own a house where you live with partner and children
+    > you have 3 rooms: your bedroom, your kids' bedroom, and a guest room
+    > would you want visitors to be able to come into your room (yourRoom) or even your kids' room (kidsRoom)?
+    > NO
+    > they should only be able to enter the guest bedroom
+    > therefore, you could deny access to yourRoom and kidsRoom by saying that it's private
+    > but let them know that they can enter the guest bedroom since it's for the public
+    > boom.
+
+    > making games shares this logic
+
+        >> imagine you make a main playable character (MPC) that has an int health
+        >> MPC's health could be accessed by multiple things:
+
+            >> a game UI (to display the MPC's health)
+            >> an enemy NPC (if MPC touches NPC, then its health decreases)
+            >> a health potion (if MPC drinks it, then its health increases)
+
+        >> but what if UI does not display health correctly or enemy NPC increases MPC's health? (i.e. a bug)
+        >> you wouldn't exactly know where the bug came from and would have to search each factor to find it
+        >> therefore you can make MPC's health private, but make functions that can display, increase, or decrease its health
+        >> enemyNPC, gameUI, healthPotion could change health by using these functions
+        >> if bug occurs, then you will know for a fact that it came from MPC script and immediately fix it (*cope)
+
+    > example of using in a C# script
+
+        public class Hero {
+
+            private int health = 100;
+
+            public int DescreaseHealth(int amount) {
+                health -= amount;
+            }
+
+            public int IncreaseHealth(int amount) {
+                health += amount;
+            }
+
+            public int GetHealth() {
+                return health;
+            }
+        }
+
+- so what does [SerializeField] do?
+
+    > basically, if you want to edit the private variables in unity you add the [SerializeField] attribute to it
+    > no other class or component can directly access and mess with it except for the Unity game engine itself
+
+    ex) [SerializeField] private int health = 100; // default value is set at 100
