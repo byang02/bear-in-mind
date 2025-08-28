@@ -1,0 +1,17 @@
+if you ever have this error when trying to clone a github repository:
+
+    Cloning into '/Users/donny/Projects/GameDev/project-swag'...remote: 
+    Enumerating objects: 6667, done.remote: 
+    Counting objects: 100% (135/135), done.remote: 
+    Compressing objects: 100% (85/85), done.error: 
+    RPC failed; curl 92 HTTP/2 stream 7 was not closed cleanly: 
+    CANCEL (err 8)error: 2894 bytes of body are still expectedfetch-pack: 
+    unexpected disconnect while reading sideband packetfatal: early EOFfatal: 
+    fetch-pack: invalid index-pack output
+    Would you like to retry cloning ?
+
+or your download speed is stuck at an ABOMINABLE 8 KiB/s
+
+just download a VPN man...
+
+found out the hard way
