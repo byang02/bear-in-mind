@@ -1,0 +1,103 @@
+Barebone Chat Function Using PurrNet
+
+    > the code: 
+
+        using PurrNet;
+        using PurrNet.Packing;
+        using TMPro;
+        using UnityEngine;
+
+        public struct ChatMessage : IPackedAuto
+        {
+            public string name;
+            public string message;
+
+            public override string ToString()
+            {
+                return $"[{name}] {message}";
+            }
+
+            public void SetMessage(string msg)
+            {
+                this.message = msg;
+            }
+        }
+        public class ChatManager : PurrMonoBehaviour
+        {
+            [SerializeField] private TMP_Text chatText = null;
+            [SerializeField] private TMP_InputField chatInput = null;
+            
+            public override void Subscribe(NetworkManager manager, bool asServer)
+            {
+                manager.Subscribe<ChatMessage>(OnDataReceived, asServer);
+            }
+
+            public override void Unsubscribe(NetworkManager manager, bool asServer)
+            {
+                manager.Unsubscribe<ChatMessage>(OnDataReceived, asServer);
+            }
+
+            private void OnDataReceived(PlayerID player, ChatMessage data, bool asServer)
+            {
+                if (asServer)
+                {
+                    InstanceHandler.NetworkManager.SendToAll<ChatMessage>(data);
+                }
+                else
+                {
+                    Debug.Log($"received: [{data.name}] {data.message}");
+                    chatText.text += data.ToString() + "\n";
+                }
+            }
+
+            void Update()
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    ChatMessage message = new ChatMessage
+                    {
+                        name = InstanceHandler.NetworkManager.localPlayer.ToString(),
+                        message = chatInput.text
+                    };
+                    
+                    InstanceHandler.NetworkManager.SendToServer(message);
+
+                    chatInput.text = string.Empty;
+                }
+            }
+        }
+
+    -------------------------------------------------------------------------------------------------
+
+    > NetworkManager receives data from OnDataReceived and sends InstanceHandler
+
+        >> sending data is handled by .SendToAll(), .SendToServer()
+
+            >> .SendToAll(dataToSend) sends data to all the clients; usually from the server
+            >> .SendToServer(dataToSend) sends data to server; usually from the client
+
+        >> between the <> in Subscribe<> is the type of data that we're sending
+
+            >>> in our case it's the struct ChatMessage
+
+        >> Unsubscribing is important to prevent possible errors and issues!
+
+    > since we want to update the text box UI when a player sends a message, we concatenate chatText.text after we received the data from the server
+
+        >> OnDataReceived is where we receive data in this script
+
+    > before we send any data to the server, we want to make sure that we are sending what is written within the input field UI
+
+        >> therefore, assign ChatMessage.message to ChatInput.text BEFORE sending it to the server
+
+    > ig the visualized order would look like this then (from top-down):
+
+        >>1 prepare data
+        >>2 send data to server
+        >>3 server receives data
+        >>4 server sends data to clients
+        >>5 clients receive data
+        >>6 clients update using data received
+
+    > idc if this was obvious or incorrect, it helps me wrap my head around how to do this :,)
+    
