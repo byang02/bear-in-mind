@@ -92,8 +92,8 @@ Barebone Chat Function Using PurrNet
 
     > ig the visualized order would look like this then (from top-down):
 
-        >>1 prepare data
-        >>2 send data to server
+        >>1 client prepares data
+        >>2 client sends data to server
         >>3 server receives data
         >>4 server sends data to clients
         >>5 clients receive data
@@ -101,3 +101,12 @@ Barebone Chat Function Using PurrNet
 
     > idc if this was obvious or incorrect, it helps me wrap my head around how to do this :,)
     
+    [2025/08/28 11:59AM]
+    >* got this information from the PurrNet discord:
+
+        >> you would likely want to have your chat UI separate from the player object instance
+        >> script that handles the chat function would have to also exist within the scene
+
+            >>> i will just put it in the scene under an empty GameObject for now
+
+                >>>> maybe spawning it in would be a good idea too hm
